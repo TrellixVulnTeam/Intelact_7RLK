@@ -1,0 +1,28 @@
+[debug] [2017-11-10T18:12:32.160Z] ----------------------------------------------------------------------
+[debug] [2017-11-10T18:12:32.167Z] Command:       /usr/local/bin/node /usr/local/bin/firebase serve
+[debug] [2017-11-10T18:12:32.168Z] CLI Version:   3.14.0
+[debug] [2017-11-10T18:12:32.168Z] Platform:      linux
+[debug] [2017-11-10T18:12:32.168Z] Node Version:  v9.1.0
+[debug] [2017-11-10T18:12:32.168Z] Time:          Fri Nov 10 2017 18:12:32 GMT+0000 (GMT)
+[debug] [2017-11-10T18:12:32.168Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2017-11-10T18:12:32.184Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2017-11-10T18:12:32.185Z] > authorizing via signed-in user
+[debug] [2017-11-10T18:12:32.188Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/intelact-b15ab  
+ Fri Nov 10 2017 18:12:32 GMT+0000 (GMT)
+[debug] [2017-11-10T18:12:32.809Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-10T18:12:32.813Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/intelact-b15ab/tokens  
+ Fri Nov 10 2017 18:12:32 GMT+0000 (GMT)
+[debug] [2017-11-10T18:12:33.759Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from '/home/daniel/Desktop/Cloud Computing/Test-Firebase/test-upload'...
+[info] 
+[debug] [2017-11-10T18:12:33.770Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/intelact-b15ab  
+ Fri Nov 10 2017 18:12:33 GMT+0000 (GMT)
+[debug] [2017-11-10T18:12:34.432Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-10T18:12:34.432Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/337392473284/clients/_:getWebAppConfig  
+ Fri Nov 10 2017 18:12:34 GMT+0000 (GMT)
+[debug] [2017-11-10T18:12:34.844Z] <<< HTTP RESPONSE 200
+[info] i  hosting: Serving hosting files from: public
+[info] ✔  hosting: Local server: http://localhost:5000
+
