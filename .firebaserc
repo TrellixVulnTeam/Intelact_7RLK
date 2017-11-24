@@ -1,6 +1,7 @@
 {
   "projects": {
     "default": "intelact-b15ab",
-    "test-upload": "intelact-b15ab"
+    "test-upload": "intelact-b15ab",
+    "testing": "intelact-b15ab"
   }
 }
