@@ -84,6 +84,8 @@ IntelactPortal.prototype.signIn = function() {
 };
 
 
+
+
 // Signs-out of Friendly Chat.
 IntelactPortal.prototype.signOut = function() {
   // Sign out of Firebase.
@@ -249,6 +251,8 @@ IntelactPortal.prototype.onAuthStateChanged = function(user) {
 
     // Hide sign-in button.
     this.signInButton.setAttribute('hidden', 'true');
+    document.getElementById("gcs_key").setAttribute('value', user.uid);
+
 
     this.checkUserExists();
 
@@ -263,6 +267,13 @@ IntelactPortal.prototype.onAuthStateChanged = function(user) {
     this.signInButton.removeAttribute('hidden');
   }
 };
+
+
+IntelactPortal.prototype.getUploadFileName = function() {
+  console.log(firebase.auth().currentUser)
+  var filename = firebase.auth().currentUser.uid + "-" + Date.now();
+  return filename;
+}
 
 // Returns true if user is signed-in. Otherwise false and displays a message.
 IntelactPortal.prototype.checkSignedInWithMessage = function() {

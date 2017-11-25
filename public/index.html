@@ -17,6 +17,7 @@
   limitations under the License
 -->
 <html lang="en">
+
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -126,11 +127,20 @@
       </div>
       <main class="mdl-layout__content mdl-color--white">
 
+
             <!-- VIDEO FORM -->
 
-            <form id="video-form" action="http://intelact_event_videos.storage.googleapis.com"method="post" enctype="multipart/form-data">
+            <script>
+                function setGcsKey() {
+                  document.getElementById('gcs_key').setAttribute('value',Date.now());
+                }
+            </script>
+            <form id="video-form" action="http://intelact_event_videos.storage.googleapis.com"method="post" enctype="multipart/form-data" onsubmit="setGcsKey()">
 
-            <input type="hidden" name="key" value="${filename}" />
+            <input type="hidden" id="gcs_key" name="key" value="" />
+
+           
+
             <input type="hidden" name="bucket" value="event_videos">
             <input type="hidden" name="Content-Type" value="video/mp4">
             
@@ -166,6 +176,7 @@
   firebase.initializeApp(config);
 </script>
 <script src="main.js"></script>
+
 
 
 </html>
