@@ -2,7 +2,7 @@
 
 const Storage = require('@google-cloud/storage');
 
-const CLOUD_BUCKET = 'event_videos'
+const CLOUD_BUCKET = 'intelact_event_videos'
 const GCLOUD_PROJECT = 'intelact-186119'
 
 const storage = Storage({

@@ -6,7 +6,7 @@ const uploader = require('./uploadToGCS.js');
 
 
 
-router.post(
+/*router.post(
   '/',
   uploader.multer.single('videoFile'),
   uploader.sendUploadToGCS,
@@ -15,5 +15,5 @@ router.post(
     res.redirect('back');
   }
 );
-
+*/
 module.exports = router;

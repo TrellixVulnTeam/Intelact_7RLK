@@ -125,9 +125,16 @@
         </nav>
       </div>
       <main class="mdl-layout__content mdl-color--white">
-            <form id="video-form" method="post" enctype="multipart/form-data">
 
-            <input id="mediaCapture" type="file" accept="video/*,capture=camera" name="videoFile">
+            <!-- VIDEO FORM -->
+
+            <form id="video-form" action="http://intelact_event_videos.storage.googleapis.com"method="post" enctype="multipart/form-data">
+
+            <input type="hidden" name="key" value="${filename}" />
+            <input type="hidden" name="bucket" value="event_videos">
+            <input type="hidden" name="Content-Type" value="video/mp4">
+            
+            <input id="mediaCapture" type="file" accept="video/*,capture=camera" name="file">
             <button id="submitVideo" type="submit" title="Upload a video" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect  mdl-color-text--black">
             Upload
             </button>
