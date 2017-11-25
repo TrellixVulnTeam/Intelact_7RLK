@@ -19,6 +19,9 @@
 <html lang="en">
 
   <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="A front-end template that helps you build fast, modern mobile web apps.">
@@ -132,9 +135,12 @@
 
             <script>
                 function setGcsKey() {
-                  document.getElementById('gcs_key').setAttribute('value',Date.now());
+                  document.getElementById('gcs_key').setAttribute('value',
+                    window.intelactPortal.auth.currentUser.uid + "-" + Date.now());
                 }
             </script>
+
+
             <form id="video-form" action="http://intelact_event_videos.storage.googleapis.com"method="post" enctype="multipart/form-data" onsubmit="setGcsKey()">
 
             <input type="hidden" id="gcs_key" name="key" value="" />

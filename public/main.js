@@ -18,11 +18,8 @@ function IntelactPortal() {
   this.signInButton.addEventListener('click', this.signIn.bind(this));
 
   // Events for video upload.
- // this.submitVideoButton.addEventListener('click', function(e) {
- //   e.preventDefault();
-//    this.mediaCapture.click();
-//  }.bind(this));
-//  this.mediaCapture.addEventListener('change', this.saveVideo.bind(this));
+
+ // this.submitVideoButton.addEventListener('click', this.createEvent.bind(this));
 
   this.initFirebase();
 }
@@ -110,57 +107,36 @@ IntelactPortal.prototype.checkSignedInWithMessage = function() {
 IntelactPortal.LOADING_IMAGE_URL = 'https://www.google.com/images/spin-32.gif';
 
 
-IntelactPortal.prototype.saveVideo = function(event) {
-  this.timestamp = Date.now()
-  this.currentUser = this.auth.currentUser.uid 
+IntelactPortal.prototype.createEvent = function(self) {
+  var timestamp = Date.now()
 
-  event.preventDefault();
-  var file = event.target.files[0];
-
-  // Clear the selection in the file picker input.
-  this.videoForm.reset();
-
-  // Check if the file is an image.
-  if (!file.type.match('video.*')) {
-    var data = {
-      message: 'You can only upload videos',
-      timeout: 2000
-    };
-    return;
-  }
+  console.log(self);
 
   // Check if the user is signed-in
-  if (this.checkSignedInWithMessage()) {
+  if (self.checkSignedInWithMessage(self)) {
 
     // We add a message with a loading icon that will get updated with the shared image.
-    var currentUser = this.auth.currentUser;
-    this.eventProm = this.eventsRef.push({ 
+    var currentUser = self.auth.currentUser;
+    var filename = document.getElementById("gcs_key").value;
+    var videourl = "http://storage.googleapis.com/intelact_event_videos/" + filename;
+    self.eventProm = self.eventsRef.push({ 
       eventID: "",
       uid: currentUser.uid,
-      start_timestamp: this.timestamp,
+      start_timestamp: timestamp,
       end_timestamp: 0,
       location: "",
-      videoUrl: ""
+      videoUrl: videourl
     }).then(function(data) {   
       data.update({eventID: data.key});
-      this.addUserEvent(data.key)
-      // Upload the image to Cloud Storage.
-      var filePath = 'users/' + currentUser.uid + '/' + data.key + '/video/' + file.name;
-      return this.storage.ref(filePath).put(file).then(function(snapshot) {
-        // Get the file's Storage URI and update the chat message placeholder.
-        var fullPath = snapshot.metadata.fullPath;
-        var videourl = this.storage.ref(fullPath).toString();
-        data.update({videoUrl: videourl});
-        this.displayVideo(snapshot.key, currentUser.displayName, currentUser.photoUrl, videourl);
-
+      self.addUserEvent(data.key)
+      self.displayVideo(data.key, currentUser.displayName, currentUser.photoUrl, videourl);
         return;
       }.bind(this));
-    }.bind(this)).catch(function(error) {
-          console.error('There was an error uploading a file to Cloud Storage:', error);
-    });
+
+    }
 
   }  
-}
+
 
 IntelactPortal.prototype.addUserEvent = function(key) {
   var currentUser = this.auth.currentUser
@@ -176,7 +152,6 @@ IntelactPortal.prototype.addUserEvent = function(key) {
 
 // Displays uploaded video in the UI.
 IntelactPortal.prototype.displayVideo = function(key, name, photoUrl , videoUri) {
-  // TODO: Add compatibility for different file formats. 
 
   var div = document.getElementById(key);
   // If an element for that message does not exists yet we create it.
@@ -211,6 +186,7 @@ IntelactPortal.prototype.displayVideo = function(key, name, photoUrl , videoUri)
   this.submitVideoButton.setAttribute('hidden', 'true');
   this.mediaCapture.setAttribute('hidden', 'true');
 
+  document.getElementById('gcs_key').setAttribute('value',"");
 
 };
 
@@ -276,7 +252,7 @@ IntelactPortal.prototype.getUploadFileName = function() {
 }
 
 // Returns true if user is signed-in. Otherwise false and displays a message.
-IntelactPortal.prototype.checkSignedInWithMessage = function() {
+IntelactPortal.prototype.checkSignedInWithMessage = function(self) {
   // Return true if the user is signed in Firebase
   if (this.auth.currentUser) {
     return true;
