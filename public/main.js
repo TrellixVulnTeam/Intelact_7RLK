@@ -18,11 +18,11 @@ function IntelactPortal() {
   this.signInButton.addEventListener('click', this.signIn.bind(this));
 
   // Events for video upload.
-  this.submitVideoButton.addEventListener('click', function(e) {
-    e.preventDefault();
-    this.mediaCapture.click();
-  }.bind(this));
-  this.mediaCapture.addEventListener('change', this.saveVideo.bind(this));
+ // this.submitVideoButton.addEventListener('click', function(e) {
+ //   e.preventDefault();
+//    this.mediaCapture.click();
+//  }.bind(this));
+//  this.mediaCapture.addEventListener('change', this.saveVideo.bind(this));
 
   this.initFirebase();
 }

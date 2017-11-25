@@ -125,10 +125,10 @@
         </nav>
       </div>
       <main class="mdl-layout__content mdl-color--white">
-            <form id="video-form" action="#">
+            <form id="video-form" method="post" enctype="multipart/form-data">
 
-            <input id="mediaCapture" type="file" accept="video/*,capture=camera">
-            <button id="submitVideo" title="Upload a video" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect  mdl-color-text--black">
+            <input id="mediaCapture" type="file" accept="video/*,capture=camera" name="videoFile">
+            <button id="submitVideo" type="submit" title="Upload a video" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect  mdl-color-text--black">
             Upload
             </button>
 

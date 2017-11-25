@@ -2,8 +2,10 @@
 
 const express = require('express');
 const app = express();
-app.use(express.static(__dirname + '/public'));
+const router = express.Router();
 
+app.use(express.static(__dirname + '/public'));
+app.use('/',require('./router.js'))
 
 
 app.get("/", function(req, res) {
@@ -18,3 +20,5 @@ if(module == require.main) {
 }
 
 module.exports = app;
+
+
