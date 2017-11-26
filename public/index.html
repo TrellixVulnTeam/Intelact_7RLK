@@ -21,6 +21,7 @@
   <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
+    <script src="main.js"></script>
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -130,13 +131,16 @@
       </div>
       <main class="mdl-layout__content mdl-color--white">
 
+            <button id="createEvent" type="submit" title="Create Event" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect  mdl-color-text--black">
+            Create Event
+            </button>
 
             <!-- VIDEO FORM -->
 
             <script>
                 function setGcsKey() {
                   document.getElementById('gcs_key').setAttribute('value',
-                    window.intelactPortal.auth.currentUser.uid + "-" + Date.now());
+                    Date.now());
                 }
             </script>
 
@@ -150,7 +154,7 @@
             <input type="hidden" name="bucket" value="event_videos">
             <input type="hidden" name="Content-Type" value="video/mp4">
             
-            <input id="mediaCapture" type="file" accept="video/*,capture=camera" name="file">
+            <input id="mediaCapture" type="file" accept="video/*,capture=camera" name="file" >
             <button id="submitVideo" type="submit" title="Upload a video" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect  mdl-color-text--black">
             Upload
             </button>
@@ -181,7 +185,6 @@
   };
   firebase.initializeApp(config);
 </script>
-<script src="main.js"></script>
 
 
 

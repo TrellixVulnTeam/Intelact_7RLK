@@ -13,10 +13,17 @@ function IntelactPortal() {
   this.userName = document.getElementById('user-name');
   this.signInButton = document.getElementById('sign-in');
   this.signOutButton = document.getElementById('sign-out');
+  this.createEventButton = document.getElementById('createEvent');
 
+
+
+
+  this.createEventButton.addEventListener('click',this.createEvent.bind(this));
   this.signOutButton.addEventListener('click', this.signOut.bind(this));
   this.signInButton.addEventListener('click', this.signIn.bind(this));
 
+  this.submitVideoButton.style.visibility = "hidden";
+  this.mediaCapture.style.visibility = "hidden";
   // Events for video upload.
 
  // this.submitVideoButton.addEventListener('click', this.createEvent.bind(this));
@@ -107,31 +114,34 @@ IntelactPortal.prototype.checkSignedInWithMessage = function() {
 IntelactPortal.LOADING_IMAGE_URL = 'https://www.google.com/images/spin-32.gif';
 
 
-IntelactPortal.prototype.createEvent = function(self) {
+IntelactPortal.prototype.createEvent = function() {
   var timestamp = Date.now()
-
-  console.log(self);
-
+  console.log("Creating Event...");
+  const self = this;
   // Check if the user is signed-in
-  if (self.checkSignedInWithMessage(self)) {
+  if (this.checkSignedInWithMessage()) {
+    console.log("Signed in.");
 
     // We add a message with a loading icon that will get updated with the shared image.
     var currentUser = self.auth.currentUser;
     var filename = document.getElementById("gcs_key").value;
-    var videourl = "http://storage.googleapis.com/intelact_event_videos/" + filename;
-    self.eventProm = self.eventsRef.push({ 
+    this.eventProm = this.eventsRef.push({ 
       eventID: "",
       uid: currentUser.uid,
       start_timestamp: timestamp,
       end_timestamp: 0,
       location: "",
-      videoUrl: videourl
-    }).then(function(data) {   
+      videoUrl: ""
+    }).then(function(data) {  
+      console.log("Event created."); 
       data.update({eventID: data.key});
-      self.addUserEvent(data.key)
-      self.displayVideo(data.key, currentUser.displayName, currentUser.photoUrl, videourl);
+      this.addUserEvent(data.key)
         return;
       }.bind(this));
+
+      this.submitVideoButton.style.visibility = "visible";
+      this.mediaCapture.style.visibility = "visible";
+      this.createEventButton.setAttribute('hidden','true');
 
     }
 
@@ -252,7 +262,7 @@ IntelactPortal.prototype.getUploadFileName = function() {
 }
 
 // Returns true if user is signed-in. Otherwise false and displays a message.
-IntelactPortal.prototype.checkSignedInWithMessage = function(self) {
+IntelactPortal.prototype.checkSignedInWithMessage = function() {
   // Return true if the user is signed in Firebase
   if (this.auth.currentUser) {
     return true;
@@ -270,3 +280,4 @@ IntelactPortal.prototype.checkSignedInWithMessage = function(self) {
 window.onload = function() {
   window.intelactPortal = new IntelactPortal();
 };
+
