@@ -23,12 +23,12 @@ function IntelactPortal() {
   this.mediaCapture.style.visibility = "hidden";
   // Events for video upload.
 
-this.submitVideoButton.addEventListener('click', function(e) {
+/*this.submitVideoButton.addEventListener('click', function(e) {
      e.preventDefault();
      this.mediaCapture.click();
    }.bind(this));
    this.mediaCapture.addEventListener('change', this.displayVideo.bind(this));
- 
+ */
   this.initFirebase();
 }
 
@@ -113,6 +113,8 @@ IntelactPortal.prototype.createEvent = function() {
   var timestamp = Date.now()
   console.log("Creating Event...");
   const self = this;
+
+
   // Check if the user is signed-in
   if (this.checkSignedInWithMessage()) {
     console.log("Signed in.");
@@ -131,8 +133,15 @@ IntelactPortal.prototype.createEvent = function() {
       console.log("Event created."); 
       data.update({eventID: data.key});
       this.addUserEvent(data.key)
+      var videoRef = this.eventsRef.child(data.key + "/videoUrl");
+      videoRef.on('child_changed',function(data) {
+        console.log(data.val());
+      });
+
         return;
       }.bind(this));
+
+      
 
       this.submitVideoButton.style.visibility = "visible";
       this.mediaCapture.style.visibility = "visible";

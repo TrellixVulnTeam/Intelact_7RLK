@@ -12,6 +12,8 @@ const topicName = "event_processing";
 const topic = pubsub.topic(topicName);
 const subscriptionName = "AE_subscription";
 
+
+
 const options = {
     pushConfig: {
     	// change to https://${pubsub.projectId}.appspot.com/push
@@ -20,7 +22,23 @@ const options = {
     }
   };
 
+function listSubscriptions () {
+  // Instantiates a client
+  // Lists all subscriptions in the current project
+  return pubsub.getSubscriptions()
+    .then((results) => {
+      const subscriptions = results[0];
+
+      console.log('Subscriptions:');
+      subscriptions.forEach((subscription) => console.log(subscription.name));
+
+      return subscriptions;
+    });
+}
+
 function pushSubscribe(subscriptionName) {
+
+
 	console.log("pushSubscribe");
 	return topic.createSubscription(subscriptionName)
     .then((results) => {
@@ -30,8 +48,6 @@ function pushSubscribe(subscriptionName) {
 	  subscription.on("message",handleMessage);
       return subscription;
     });
-
-
 }
 
 function handleMessage(message,err) {
@@ -44,9 +60,10 @@ function handleMessage(message,err) {
     const data = message.data;
 
 	if(message.attributes.eventType == "OBJECT_FINALIZE") {
-		console.log(data)
+		var json = JSON.parse(data.toString());
 		//view(data.selfLink)
 	}
+
 
 }
 
