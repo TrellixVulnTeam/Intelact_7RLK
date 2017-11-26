@@ -15,9 +15,6 @@ function IntelactPortal() {
   this.signOutButton = document.getElementById('sign-out');
   this.createEventButton = document.getElementById('createEvent');
 
-
-
-
   this.createEventButton.addEventListener('click',this.createEvent.bind(this));
   this.signOutButton.addEventListener('click', this.signOut.bind(this));
   this.signInButton.addEventListener('click', this.signIn.bind(this));
@@ -26,8 +23,12 @@ function IntelactPortal() {
   this.mediaCapture.style.visibility = "hidden";
   // Events for video upload.
 
- // this.submitVideoButton.addEventListener('click', this.createEvent.bind(this));
-
+this.submitVideoButton.addEventListener('click', function(e) {
+     e.preventDefault();
+     this.mediaCapture.click();
+   }.bind(this));
+   this.mediaCapture.addEventListener('change', this.displayVideo.bind(this));
+ 
   this.initFirebase();
 }
 
@@ -49,17 +50,11 @@ IntelactPortal.VIDEO_TEMPLATE =
 // Sets the URL of the given img element with the URL of the image stored in Cloud Storage.
 IntelactPortal.prototype.setVideoUrl = function(videoUri, vidElement) {
   // If the image is a Cloud Storage URI we fetch the URL.
-  if (videoUri.startsWith('gs://')) {
-    if (vidElement.canPlayType("video/mp4")) {
-      vidElement.src = IntelactPortal.LOADING_IMAGE_URL; // Display a loading image first.
-      this.storage.refFromURL(videoUri).getMetadata().then(function(metadata) {
-        vidElement.src = metadata.downloadURLs[0];
-    }); }
-  } else {
+  
     if (vidElement.canPlayType("video/mp4")) {
       vidElement.src = videoUri;
     }
-  }
+  
 };
 
 // Sets up shortcuts to Firebase features and initiate firebase auth.
@@ -161,23 +156,21 @@ IntelactPortal.prototype.addUserEvent = function(key) {
 
 
 // Displays uploaded video in the UI.
-IntelactPortal.prototype.displayVideo = function(key, name, photoUrl , videoUri) {
+IntelactPortal.prototype.displayVideo = function(event) {
+  var file = event.target.files[0];
+  var fileurl = window.URL.createObjectURL(file);
 
-  var div = document.getElementById(key);
+  var div = document.getElementById(file);
   // If an element for that message does not exists yet we create it.
   if(!div) {
     var container = document.createElement('div');
     container.innerHTML = IntelactPortal.VIDEO_TEMPLATE;
     div = container.firstChild;
-    div.setAttribute('id', key);
+    div.setAttribute('id', file);
     this.videoSpace.appendChild(div);
   }
 
-  if (photoUrl) {
-    div.querySelector('.pic').style.backgroundImage = 'url(' + photoUrl + ')';
-  } 
-
-  if(videoUri) {
+  if(file) {
     var videoElement = div.querySelector('.video');
     var video = document.createElement('video');
     video.setAttribute("controls", "controls");
@@ -185,7 +178,7 @@ IntelactPortal.prototype.displayVideo = function(key, name, photoUrl , videoUri)
     video.addEventListener('load', function() {
       this.videoSpace.scrollTop = this.videoSpace.scrollHeight;
     }.bind(this));
-    this.setVideoUrl(videoUri, video);
+    this.setVideoUrl(fileurl, video);
     videoElement.innerHTML = '';
     videoElement.appendChild(video);
   }
