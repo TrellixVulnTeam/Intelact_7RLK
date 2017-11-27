@@ -138,14 +138,14 @@
             <!-- VIDEO FORM -->
 
             <script>
-                function setGcsKey() {
-                  document.getElementById('gcs_key').setAttribute('value',
-                    Date.now());
-                }
+                //function setGcsKey() {
+                  ////document.getElementById('gcs_key').setAttribute('value',
+                   // Date.now());
+                //}
             </script>
 
 
-            <form id="video-form" action="http://intelact_event_videos.storage.googleapis.com"method="post" enctype="multipart/form-data" onsubmit="setGcsKey()">
+            <form id="video-form" action="http://intelact_event_videos.storage.googleapis.com"method="post" enctype="multipart/form-data">
 
             <input type="hidden" id="gcs_key" name="key" value="" />
 

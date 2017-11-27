@@ -11,6 +11,8 @@ const pubsub = Pubsub({
 const topicName = "event_processing";
 const topic = pubsub.topic(topicName);
 const subscriptionName = "AE_subscription";
+const fbadmin = require("firebase-admin");
+
 
 
 
@@ -61,8 +63,24 @@ function handleMessage(message,err) {
 
 	if(message.attributes.eventType == "OBJECT_FINALIZE") {
 		var json = JSON.parse(data.toString());
+    var filename = json.name;
+    var parts = filename.split('_');
+    console.log(parts);
+    var user = parts[0];
+    var eventKey = parts[1];
+    var timestamp = parts[2];
+
+
+    console.log(user);
+    console.log(eventKey);
+    console.log(timestamp);
+    //console.log(json);
 		//view(data.selfLink)
 	}
+
+  if(data.action == "EVENT_CREATED") {
+
+  }
 
 
 }

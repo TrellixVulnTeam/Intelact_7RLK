@@ -121,7 +121,6 @@ IntelactPortal.prototype.createEvent = function() {
 
     // We add a message with a loading icon that will get updated with the shared image.
     var currentUser = self.auth.currentUser;
-    var filename = document.getElementById("gcs_key").value;
     this.eventProm = this.eventsRef.push({ 
       eventID: "",
       uid: currentUser.uid,
@@ -131,6 +130,10 @@ IntelactPortal.prototype.createEvent = function() {
       videoUrl: ""
     }).then(function(data) {  
       console.log("Event created."); 
+      var filename = currentUser.uid + "_" + data.key + "_" + Date.now();
+      document.getElementById('gcs_key').setAttribute('value',
+                    filename);
+
       data.update({eventID: data.key});
       this.addUserEvent(data.key)
       var videoRef = this.eventsRef.child(data.key + "/videoUrl");
