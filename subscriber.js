@@ -14,6 +14,15 @@ const subscriptionName = "AE_subscription";
 const fbadmin = require("firebase-admin");
 
 
+var serviceAccount = require("./intelact-b15ab-firebase-adminsdk-0ktq9-dc5c862445.json");
+fbadmin.initializeApp({
+  credential: fbadmin.credential.cert(serviceAccount),
+  databaseURL: "https://intelact-b15ab.firebaseio.com"
+});
+
+
+
+
 
 
 const options = {
@@ -60,22 +69,24 @@ function handleMessage(message,err) {
     }
     console.log("Handling message.");
     const data = message.data;
+    message.ack();
 
 	if(message.attributes.eventType == "OBJECT_FINALIZE") {
 		var json = JSON.parse(data.toString());
     var filename = json.name;
-    var parts = filename.split('_');
-    console.log(parts);
+    var parts = filename.split('/');
+
     var user = parts[0];
     var eventKey = parts[1];
     var timestamp = parts[2];
 
 
-    console.log(user);
-    console.log(eventKey);
-    console.log(timestamp);
-    //console.log(json);
-		//view(data.selfLink)
+    // add to firebase database
+    var updates = {};
+    var url = "https://storage.googleapis.com/intelact_event_videos/" + filename;
+    updates['event_data/' + eventKey + '/videoUrl'] = url;
+    fbadmin.database().ref().update(updates);
+
 	}
 
   if(data.action == "EVENT_CREATED") {

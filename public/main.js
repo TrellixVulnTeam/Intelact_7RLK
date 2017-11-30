@@ -130,16 +130,13 @@ IntelactPortal.prototype.createEvent = function() {
       videoUrl: ""
     }).then(function(data) {  
       console.log("Event created."); 
-      var filename = currentUser.uid + "_" + data.key + "_" + Date.now();
+      var filename = currentUser.uid + "/" + data.key + "/" + Date.now();
       document.getElementById('gcs_key').setAttribute('value',
                     filename);
 
       data.update({eventID: data.key});
-      this.addUserEvent(data.key)
-      var videoRef = this.eventsRef.child(data.key + "/videoUrl");
-      videoRef.on('child_changed',function(data) {
-        console.log(data.val());
-      });
+      this.addUserEvent(data.key);
+      this.addVideoUrlListener(data.key);
 
         return;
       }.bind(this));
@@ -154,20 +151,75 @@ IntelactPortal.prototype.createEvent = function() {
 
   }  
 
+IntelactPortal.prototype.displayVideo = function(url) {
+  console.log("Displaying video...");
+  var div = document.getElementById(url);
+  // If an element for that message does not exists yet we create it.
+  if(!div) {
+    var container = document.createElement('div');
+    container.innerHTML = IntelactPortal.VIDEO_TEMPLATE;
+    div = container.firstChild;
+    div.setAttribute('id', url);
+    this.videoSpace.appendChild(div);
+  }
+
+  if(url) {
+    var videoElement = div.querySelector('.video');
+    var video = document.createElement('video');
+    video.setAttribute("controls", "controls");
+
+    video.addEventListener('load', function() {
+      this.videoSpace.scrollTop = this.videoSpace.scrollHeight;
+    }.bind(this));
+    this.setVideoUrl(url, video);
+    videoElement.innerHTML = '';
+    videoElement.appendChild(video);
+  }
+  // Show the card fading-in.
+  setTimeout(function() {div.classList.add('visible')}, 1);
+  this.videoSpace.scrollTop = this.videoSpace.scrollHeight;
+
+  this.submitVideoButton.setAttribute('hidden', 'true');
+  this.mediaCapture.setAttribute('hidden', 'true');
+
+  document.getElementById('gcs_key').setAttribute('value',"");
+
+};
+
 
 IntelactPortal.prototype.addUserEvent = function(key) {
   var currentUser = this.auth.currentUser
-  var newEventRef = this.usersRef.child(currentUser.uid).child('events').child(key)
+  var newEventRef = this.usersRef.child(currentUser.uid).child('events').child(key);
     newEventRef.set({
       eventID: key     
     });
+}
+
+IntelactPortal.prototype.addVideoUrlListener = function(key) {
+  var videoRef = this.eventsRef.child(key).child('videoUrl');
+  console.log(videoRef);
+  const self = this;
+  videoRef.on("value",function(data) {
+      console.log("Video Url has changed!");
+      console.log(this);
+
+      var url = data.val();
+
+
+      if(url.length != 0) {
+        console.log(url)
+        self.displayVideo(url)
+      }
+  });
 }
 
 
 
 
 
-// Displays uploaded video in the UI.
+
+
+/*// Displays uploaded video in the UI.
 IntelactPortal.prototype.displayVideo = function(event) {
   var file = event.target.files[0];
   var fileurl = window.URL.createObjectURL(file);
@@ -204,7 +256,7 @@ IntelactPortal.prototype.displayVideo = function(event) {
   document.getElementById('gcs_key').setAttribute('value',"");
 
 };
-
+*/
 
 IntelactPortal.prototype.checkUserExists = function() {
   var currentUser = this.auth.currentUser;

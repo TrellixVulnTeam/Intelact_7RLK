@@ -137,12 +137,9 @@
 
             <!-- VIDEO FORM -->
 
-            <script>
-                //function setGcsKey() {
-                  ////document.getElementById('gcs_key').setAttribute('value',
-                   // Date.now());
-                //}
-            </script>
+
+
+
 
 
             <form id="video-form" action="https://intelact_event_videos.storage.googleapis.com"method="post" enctype="multipart/form-data">
@@ -162,9 +159,57 @@
 
           </form>
 
-          <div id="video">
+          <div id="video_div">
            <span id="video-filler"></span>
           </div>
+
+                      <script>
+
+            IntelactPortal.VIDEO_TEMPLATE =
+            '<div class="message-container">' +
+              '<div class="spacing"><div class="pic"></div></div>' +
+              '<div class="video"></div>' +
+              '</div>';
+
+
+                function displayVideo(input) {
+                  if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function(e) {
+                      var container = document.createElement('div');
+                      container.innerHTML = IntelactPortal.VIDEO_TEMPLATE;
+                      var div = container.firstChild;
+                      var videoSpace = document.getElementById('video_div');
+                      videoSpace.appendChild(div);
+
+
+                      var videoElement = div.querySelector('.video');
+                      var video = document.createElement('video');
+                      video.setAttribute("controls", "controls");
+                      video.addEventListener('load', function() {
+                        videoSpace.scrollTop = videoSpace.scrollHeight;
+                      });
+
+
+                      if (video.canPlayType("video/mp4")) {
+                        video.src = e.target.result;
+                      } else {
+                        console.log("File not supported.");
+                      }
+
+                      videoElement.innerHTML = '';
+                      videoElement.appendChild(video);
+
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                  }
+                }
+
+                $("#mediaCapture").change(function() {
+                  displayVideo(this);
+                });
+            </script>
 
       </main>
       
