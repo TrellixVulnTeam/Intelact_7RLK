@@ -5,6 +5,7 @@ function IntelactPortal() {
 
   // Shortcuts to DOM Elements.
 
+  this.messageList = document.getElementById('messages');
   this.videoSpace = document.getElementById('video');
   this.submitVideoButton = document.getElementById('submitVideo');
   this.videoForm = document.getElementById('video-form');
@@ -33,10 +34,11 @@ function IntelactPortal() {
 }
 
 IntelactPortal.MESSAGE_TEMPLATE =
-    '<div class="message-container">' +
-      '<div class="spacing"><div class="pic"></div></div>' +
+    '<div id="messages-card" >' +
+      '<div class="spacing"></div>' +
+      '<div class="time"></div>' +
       '<div class="message"></div>' +
-      '<div class="name"></div>' +
+      '<div class="detail"></div>' +
     '</div>';
 
 
@@ -45,6 +47,34 @@ IntelactPortal.VIDEO_TEMPLATE =
       '<div class="spacing"><div class="pic"></div></div>' +
       '<div class="video"></div>' +
       '</div>';
+
+
+IntelactPortal.prototype.displayMessage = function(key,message,detail,timestamp) {
+  
+  var div = document.getElementById(key);
+  if (!div) {
+    var container = document.createElement('div');
+    container.innerHTML = IntelactPortal.MESSAGE_TEMPLATE;
+    div = container.firstChild;
+    div.setAttribute('id', key);
+    this.messageList.appendChild(div);
+  }
+
+  div.querySelector('.message').textContent = message;
+  var messageElement = div.querySelector('.detail');
+
+  if (detail) { // If the message is text.
+    messageElement.textContent = detail;
+    // Replace all line breaks by <br>.
+    messageElement.innerHTML = messageElement.innerHTML.replace(/\n/g, '<br>');
+  }
+  if(timestamp) {
+    var timeElement = div.querySelector('.time');
+    timeElement.textContent = timestamp;
+    timeElement.innerHTML = timeElement.innerHTML.replace(/\n/g, '<br>');
+
+  }
+};
 
 
 // Sets the URL of the given img element with the URL of the image stored in Cloud Storage.
@@ -127,7 +157,8 @@ IntelactPortal.prototype.createEvent = function() {
       start_timestamp: timestamp,
       end_timestamp: 0,
       location: "",
-      videoUrl: ""
+      videoUrl: "",
+      messages: ""
     }).then(function(data) {  
       console.log("Event created."); 
       var filename = currentUser.uid + "/" + data.key + "/" + Date.now();
@@ -136,12 +167,21 @@ IntelactPortal.prototype.createEvent = function() {
 
       data.update({eventID: data.key});
       this.addUserEvent(data.key);
-      this.addVideoUrlListener(data.key);
+
+      this.loadMessages(data.key);
+      var date = new Date();
+      var datestr = String(date);
+      var format_date = datestr.split('GMT');
+      console.log(date);
+      this.eventsRef.child(data.key).child("messages").push({
+        message: "Event Created",
+        detail: "",
+        timestamp: format_date[0]
+      });
+
 
         return;
       }.bind(this));
-
-      
 
       this.submitVideoButton.style.visibility = "visible";
       this.mediaCapture.style.visibility = "visible";
@@ -151,38 +191,23 @@ IntelactPortal.prototype.createEvent = function() {
 
   }  
 
-IntelactPortal.prototype.displayVideo = function(url) {
-  console.log("Displaying video...");
-  var div = document.getElementById(url);
-  // If an element for that message does not exists yet we create it.
-  if(!div) {
-    var container = document.createElement('div');
-    container.innerHTML = IntelactPortal.VIDEO_TEMPLATE;
-    div = container.firstChild;
-    div.setAttribute('id', url);
-    this.videoSpace.appendChild(div);
-  }
+IntelactPortal.prototype.loadMessages = function(key) {
+    this.messagesRef = this.database.ref('event_data/' + key + '/messages');
+    this.messagesRef.off();
 
-  if(url) {
-    var videoElement = div.querySelector('.video');
-    var video = document.createElement('video');
-    video.setAttribute("controls", "controls");
+    var setMessage = function(data) {
+      console.log("Message found: displaying to screen");
 
-    video.addEventListener('load', function() {
-      this.videoSpace.scrollTop = this.videoSpace.scrollHeight;
-    }.bind(this));
-    this.setVideoUrl(url, video);
-    videoElement.innerHTML = '';
-    videoElement.appendChild(video);
-  }
-  // Show the card fading-in.
-  setTimeout(function() {div.classList.add('visible')}, 1);
-  this.videoSpace.scrollTop = this.videoSpace.scrollHeight;
+      var notif = document.getElementById('notif');
+      var notif_num = parseInt(notif.getAttribute('data-badge'));
+      notif.setAttribute('data-badge',String(notif_num+1));
 
-  this.submitVideoButton.setAttribute('hidden', 'true');
-  this.mediaCapture.setAttribute('hidden', 'true');
+      var val = data.val();
+      this.displayMessage(data.key, val.message, val.detail,val.timestamp);
+  }.bind(this);
 
-  document.getElementById('gcs_key').setAttribute('value',"");
+  this.messagesRef.on('child_added', setMessage);
+  this.messagesRef.on('child_changed', setMessage);
 
 };
 
@@ -195,68 +220,7 @@ IntelactPortal.prototype.addUserEvent = function(key) {
     });
 }
 
-IntelactPortal.prototype.addVideoUrlListener = function(key) {
-  var videoRef = this.eventsRef.child(key).child('videoUrl');
-  console.log(videoRef);
-  const self = this;
-  videoRef.on("value",function(data) {
-      console.log("Video Url has changed!");
-      console.log(this);
 
-      var url = data.val();
-
-
-      if(url.length != 0) {
-        console.log(url)
-        self.displayVideo(url)
-      }
-  });
-}
-
-
-
-
-
-
-
-/*// Displays uploaded video in the UI.
-IntelactPortal.prototype.displayVideo = function(event) {
-  var file = event.target.files[0];
-  var fileurl = window.URL.createObjectURL(file);
-
-  var div = document.getElementById(file);
-  // If an element for that message does not exists yet we create it.
-  if(!div) {
-    var container = document.createElement('div');
-    container.innerHTML = IntelactPortal.VIDEO_TEMPLATE;
-    div = container.firstChild;
-    div.setAttribute('id', file);
-    this.videoSpace.appendChild(div);
-  }
-
-  if(file) {
-    var videoElement = div.querySelector('.video');
-    var video = document.createElement('video');
-    video.setAttribute("controls", "controls");
-
-    video.addEventListener('load', function() {
-      this.videoSpace.scrollTop = this.videoSpace.scrollHeight;
-    }.bind(this));
-    this.setVideoUrl(fileurl, video);
-    videoElement.innerHTML = '';
-    videoElement.appendChild(video);
-  }
-  // Show the card fading-in.
-  setTimeout(function() {div.classList.add('visible')}, 1);
-  this.videoSpace.scrollTop = this.videoSpace.scrollHeight;
-
-  this.submitVideoButton.setAttribute('hidden', 'true');
-  this.mediaCapture.setAttribute('hidden', 'true');
-
-  document.getElementById('gcs_key').setAttribute('value',"");
-
-};
-*/
 
 IntelactPortal.prototype.checkUserExists = function() {
   var currentUser = this.auth.currentUser;

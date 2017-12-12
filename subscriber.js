@@ -87,11 +87,17 @@ function handleMessage(message,err) {
     updates['event_data/' + eventKey + '/videoUrl'] = url;
     fbadmin.database().ref().update(updates);
 
+    var messagesRef = fbadmin.database.ref('event_data/' + eventKey + 'messages');
+    messagesRef.push({
+      message: "Video Uploaded to the Cloud"
+      detail: ""
+    });
+
+    // start analysing
+
 	}
 
-  if(data.action == "EVENT_CREATED") {
 
-  }
 
 
 }

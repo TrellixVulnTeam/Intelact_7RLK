@@ -69,31 +69,22 @@
       max-width: 600px;
       max-height: 600px;
     }
+
+
     </style>
   </head>
   <body>
     <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
       <header class="demo-header mdl-layout__header mdl-color--orange-500 mdl-color-text--white">
         <div class="mdl-layout__header-row">
-          <span class="mdl-layout-title"><h3>Interlact Portal</h3></span>
+          <span class="mdl-layout-title"><h3>Intelact - An AI Emergency Responder</h3></span>
           <div class="mdl-layout-spacer"></div>
-          <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
-            <label class="mdl-button mdl-js-button mdl-button--icon" for="search">
-              <i class="material-icons">search</i>
-            </label>
-            <div class="mdl-textfield__expandable-holder">
-              <input class="mdl-textfield__input" type="text" id="search">
-              <label class="mdl-textfield__label" for="search">Enter your query...</label>
-            </div>
-          </div>
-          <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="hdrbtn">
-            <i class="material-icons">more_vert</i>
-          </button>
-          <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="hdrbtn">
-            <li class="mdl-menu__item">About</li>
-            <li class="mdl-menu__item">Contact</li>
-            <li class="mdl-menu__item">Legal information</li>
-          </ul>
+
+          <!-- Notifications-->
+
+          <div class="material-icons mdl-badge" id="notif" data-badge="0">notifications</div>
+          
+        
         </div>
       </header>
       <div class="demo-drawer mdl-layout__drawer mdl-color--grey-600 mdl-color-text--grey-500">       
@@ -117,53 +108,45 @@
         </header>
         <nav class="demo-navigation mdl-navigation mdl-color--grey-500 mdl-color-text--black">
           <a class="mdl-navigation__link" href=""><i class="mdl-color-text--white material-icons" role="presentation">home</i>Home</a>
-          <a class="mdl-navigation__link" href=""><i class="mdl-color-text--white material-icons" role="presentation">inbox</i>Inbox</a>
-          <a class="mdl-navigation__link" href=""><i class="mdl-color-text--white material-icons" role="presentation">delete</i>Trash</a>
-          <a class="mdl-navigation__link" href=""><i class="mdl-color-text--white material-icons" role="presentation">report</i>Spam</a>
-          <a class="mdl-navigation__link" href=""><i class="mdl-color-text--white material-icons" role="presentation">forum</i>Forums</a>
-          <a class="mdl-navigation__link" href=""><i class="mdl-color-text--white material-icons" role="presentation">flag</i>Updates</a>
-          <a class="mdl-navigation__link" href=""><i class="mdl-color-text--white material-icons" role="presentation">local_offer</i>Promos</a>
-          <a class="mdl-navigation__link" href=""><i class="mdl-color-text--white material-icons" role="presentation">shopping_cart</i>Purchases</a>
-          <a class="mdl-navigation__link" href=""><i class="mdl-color-text--white material-icons" role="presentation">people</i>Social</a>
-          <div class="mdl-layout-spacer"></div>
-          <a class="mdl-navigation__link" href=""><i class="mdl-color-text--white material-icons" role="presentation">help_outline</i><span class="visuallyhidden">Help</span></a>
+
         </nav>
+        
+
       </div>
+
+        <div class="mdl-layout__drawer-right">
+        <span class="mdl-layout-title">Notifications</span>
+        <div id="messages">
+           <span id="message-filler"></span>
+          </div>
+       </div>
+
       <main class="mdl-layout__content mdl-color--white">
 
             <button id="createEvent" type="submit" title="Create Event" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect  mdl-color-text--black">
             Create Event
             </button>
 
+
             <!-- VIDEO FORM -->
-
-
-
-
-
 
             <form id="video-form" action="https://intelact_event_videos.storage.googleapis.com"method="post" enctype="multipart/form-data">
 
             <input type="hidden" id="gcs_key" name="key" value="" />
-
-           
-
             <input type="hidden" name="bucket" value="event_videos">
             <input type="hidden" name="Content-Type" value="video/mp4">
-            
             <input id="mediaCapture" type="file" accept="video/*,capture=camera" name="file" >
             <button id="submitVideo" type="submit" title="Upload a video" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect  mdl-color-text--black">
             Upload
             </button>
-
-
           </form>
+
 
           <div id="video_div">
            <span id="video-filler"></span>
           </div>
 
-                      <script>
+            <script>
 
             IntelactPortal.VIDEO_TEMPLATE =
             '<div class="message-container">' +
@@ -183,14 +166,12 @@
                       var videoSpace = document.getElementById('video_div');
                       videoSpace.appendChild(div);
 
-
                       var videoElement = div.querySelector('.video');
                       var video = document.createElement('video');
                       video.setAttribute("controls", "controls");
                       video.addEventListener('load', function() {
                         videoSpace.scrollTop = videoSpace.scrollHeight;
                       });
-
 
                       if (video.canPlayType("video/mp4")) {
                         video.src = e.target.result;
@@ -212,6 +193,28 @@
             </script>
 
       </main>
+
+<div class="mdl-layout__obfuscator-right"></div>
+    </div>
+      <script type="text/javascript">
+      $('#notif').click(function(){
+ if($('.mdl-layout__drawer-right').hasClass('active')){       
+    $('.mdl-layout__drawer-right').removeClass('active'); 
+ }
+ else{
+    $('.mdl-layout__drawer-right').addClass('active'); 
+ }
+});
+
+$('.mdl-layout__obfuscator-right').click(function(){
+ if($('.mdl-layout__drawer-right').hasClass('active')){       
+    $('.mdl-layout__drawer-right').removeClass('active'); 
+ }
+ else{
+    $('.mdl-layout__drawer-right').addClass('active'); 
+ }
+});</script>
+
       
     <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
   </body>
