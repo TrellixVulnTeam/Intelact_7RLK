@@ -1,2 +1,10 @@
+# [START app_yaml]
 runtime: nodejs
 env: flex
+
+resources:
+  cpu: 4
+  memory_gb: 8
+  disk_size_gb: 20
+
+# [END app_yaml]

@@ -186,7 +186,7 @@ function handleMessage(message,err) {
     }
 
 
-    
+    return 0;
 
   }
 
