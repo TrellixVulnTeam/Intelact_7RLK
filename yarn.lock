@@ -115,6 +115,15 @@
     string-format-obj "^1.0.0"
     through2 "^2.0.0"
 
+"@google-cloud/video-intelligence@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@google-cloud/video-intelligence/-/video-intelligence-1.0.0.tgz#a6cf2aaeebe3457973d6ad0552e4c4932a1d860c"
+  dependencies:
+    extend "^3.0"
+    google-gax "^0.14.2"
+    lodash.merge "^4.6.0"
+    protobufjs "^6.8.0"
+
 "@material/animation@^0.25.0":
   version "0.25.0"
   resolved "https://registry.yarnpkg.com/@material/animation/-/animation-0.25.0.tgz#b252ac3d0b628e79a79f0c406d7470fb56352a80"
@@ -721,7 +730,7 @@ express@^4.0.33, express@^4.16.2:
     utils-merge "1.0.1"
     vary "~1.1.2"
 
-extend@^3.0.0, extend@^3.0.1, extend@~3.0.0, extend@~3.0.1:
+extend@^3.0, extend@^3.0.0, extend@^3.0.1, extend@~3.0.0, extend@~3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/extend/-/extend-3.0.1.tgz#a755ea7bc1adfcc5a31ce7e762dbaadc5e636444"
 
@@ -960,7 +969,7 @@ google-gax@^0.13.0:
     readable-stream "^2.2.2"
     through2 "^2.0.3"
 
-google-gax@^0.14.1:
+google-gax@^0.14.1, google-gax@^0.14.2:
   version "0.14.2"
   resolved "https://registry.yarnpkg.com/google-gax/-/google-gax-0.14.2.tgz#2b1f2b86e8be98a620041cee710e4f4ce61b6e2b"
   dependencies:

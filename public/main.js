@@ -38,7 +38,7 @@ IntelactPortal.MESSAGE_TEMPLATE =
       '<div class="spacing"></div>' +
       '<div class="time"></div>' +
       '<div class="message"></div>' +
-      '<div class="detail"></div>' +
+      '<div class="detail"></div><br>' +
     '</div>';
 
 
