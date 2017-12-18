@@ -37,7 +37,7 @@ IntelactPortal.MESSAGE_TEMPLATE =
     '<div id="messages-card" >' +
       '<div class="spacing"></div>' +
       '<div class="time"></div>' +
-      '<div class="message"></div>' +
+      '<strong><div class="message"></div></strong>' +
       '<div class="detail"></div><br>' +
     '</div>';
 
