@@ -53,7 +53,6 @@ function listSubscriptions () {
 function pushSubscribe(subscriptionName) {
 
 
-	console.log("pushSubscribe");
 	return topic.createSubscription(subscriptionName)
     .then((results) => {
       const subscription = results[0];
