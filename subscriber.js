@@ -64,6 +64,7 @@ function pushSubscribe(subscriptionName) {
 }
 
 function dbmessage(message,detail,ref) {
+  console.log("Pushing message to DB...");
   var date = new Date();
   var datestr = String(date);
   var format_date = datestr.split('GMT');
@@ -144,7 +145,7 @@ function handleMessage(message,err) {
     }
 
     function isMedical(x) {
-      return x == "blood" || x == "injury" || x=="bone" || x=="hemorrhage" || x=="crash" || x=="accident" || x=="wreckage" || x=="wound"
+      return x == "blood" || x == "injury" || x=="bone" || x=="hemorrhage" || x=="crash" || x=="accident" || x=="wreckage" || x=="wound" || x=="collision" || x=="flesh"
     }
 
     function isPhysical(x) {
@@ -236,22 +237,30 @@ function analyseVideo(url) {
 
       console.log("Finished analysing");
 
-      //push to topic
-      var dataBuffer = new Buffer("ANALYSED_VIDEO");
-      var attributes = {
-        eventType: "ANALYSED_VIDEO",
-        labels: JSON.stringify(entities)
+
+      var i,j,temparray,label_chunk,chunk = 125;
+      for (i=0,j=entities.length; i<j; i+=chunk) {
+        label_chunk = entities.slice(i,i+chunk);
+        // do whatever
+        //push to topic
+        var dataBuffer = new Buffer("ANALYSED_VIDEO");
+        var attributes = {
+          eventType: "ANALYSED_VIDEO",
+          labels: JSON.stringify(label_chunk)
+        }
+
+        var pub_callback = function(err, messageId) {
+          if (err) {
+            console.error('Publish ERROR:', err);
+          } else {
+            console.log("Analysed video message published");
+          }
+        };
+
+        publisher.publish(dataBuffer,attributes,pub_callback);
       }
 
-      var pub_callback = function(err, messageId) {
-        if (err) {
-          console.error('Publish ERROR:', err);
-        } else {
-          console.log("Analysed video message published");
-        }
-      };
-
-      publisher.publish(dataBuffer,attributes,pub_callback);
+      
 
       return 0;
 
