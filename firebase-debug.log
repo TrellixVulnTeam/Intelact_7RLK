@@ -1,0 +1,24 @@
+[debug] [2017-12-21T17:53:04.467Z] ----------------------------------------------------------------------
+[debug] [2017-12-21T17:53:04.470Z] Command:       /usr/bin/node /usr/bin/firebase database:profile
+[debug] [2017-12-21T17:53:04.470Z] CLI Version:   3.15.3
+[debug] [2017-12-21T17:53:04.470Z] Platform:      linux
+[debug] [2017-12-21T17:53:04.470Z] Node Version:  v9.2.0
+[debug] [2017-12-21T17:53:04.470Z] Time:          Thu Dec 21 2017 17:53:04 GMT+0000 (GMT)
+[debug] [2017-12-21T17:53:04.470Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2017-12-21T17:53:04.483Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase"]
+[debug] [2017-12-21T17:53:04.483Z] > authorizing via signed-in user
+[debug] [2017-12-21T17:53:04.485Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2017-12-21T17:53:04.485Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token { refresh_token: '1/kU0d_gFqI0hKqkREOYfSDQrZydA00EeRqxZj5nYbpjg',
+  client_id: '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
+  client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
+  grant_type: 'refresh_token',
+  scope: 'email https://www.googleapis.com/auth/cloudplatformprojects.readonly https://www.googleapis.com/auth/firebase openid' } 
+ Thu Dec 21 2017 17:53:04 GMT+0000 (GMT)
+[debug] [2017-12-21T17:53:04.731Z] <<< HTTP RESPONSE 200
+[debug] [2017-12-21T17:53:04.734Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/intelact-b15ab  
+ Thu Dec 21 2017 17:53:04 GMT+0000 (GMT)
+[debug] [2017-12-21T17:53:05.493Z] <<< HTTP RESPONSE 200
+[debug] [2017-12-21T17:53:05.493Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/intelact-b15ab/tokens  
+ Thu Dec 21 2017 17:53:05 GMT+0000 (GMT)
+[debug] [2017-12-21T17:53:06.099Z] <<< HTTP RESPONSE 200

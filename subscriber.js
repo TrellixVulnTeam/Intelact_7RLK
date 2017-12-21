@@ -122,11 +122,13 @@ function handleMessage(message,err) {
     var bucketId = message.attributes.bucketId;
     var objectId = message.attributes.objectId;
     var gsurl = "gs://" + bucketId + '/' + objectId;
-    analyseVideo(gsurl);
+    analyseVideo(gsurl,eventKey);
 
 	} if(message.attributes.eventType == "ANALYSED_VIDEO") {
     var labels_json = message.attributes.labels;
+    var eventKey = message.attributes.eventKey;
     var labels = JSON.parse(labels_json);  
+    var messagesRef = fbadmin.database().ref('event_data/' + eventKey + '/messages');
 
     // upload to database
     dbmessage("Video Analysed.",
@@ -195,7 +197,7 @@ function handleMessage(message,err) {
 
 
 
-function analyseVideo(url) {
+function analyseVideo(url,key) {
 
   var entities = []
 
@@ -246,6 +248,7 @@ function analyseVideo(url) {
         var dataBuffer = new Buffer("ANALYSED_VIDEO");
         var attributes = {
           eventType: "ANALYSED_VIDEO",
+          eventKey: key,
           labels: JSON.stringify(label_chunk)
         }
 
