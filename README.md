@@ -10,7 +10,7 @@ Run the application [here](https://intelact-186119.appspot.com/).
 
 ### Before you begin...
 * <strong> Make sure you have access to a Google account </strong> - the web application links to a Google account so that it can identify video uploads. Sign in using the button in the top left of the page, to upload a video. 
-* Have access to an MP4 video you wish to test. <strong> Uploaded videos must be in MP4 format and must be under 300 seconds in length. </strong> Some sample videos can be found under the test_videos directory in the Github respository. 
+* Have access to an MP4 video you wish to test. <strong> Uploaded videos must be in MP4 format and must be under 300 seconds in length. </strong> Some sample videos can be found under the [test_videos directory](https://github.com/dkeitley/Intelact/tree/master/test_videos) in the Github respository. 
 * The application works best with Google chrome. 
 * The application is a prototype and so is not 100% secure or robust. Please be mindful of the videos uploaded. If the video analysis does not return after about 1 minute, try uploading the video again by refreshing the page.  
 
@@ -21,7 +21,7 @@ Run the application [here](https://intelact-186119.appspot.com/).
 4. Click the 'Browse' button to select a video file you wish to test. Clicking the file will trigger the webpage to display the video on  screen. 
 5. Click the 'Upload' button to upload the video to the cloud. 
 6. Once uploaded, the notification sidebar will update to inform you that the video has successfully been uploaded and will now start analysing the video content for information. 
-7. After a few seconds to one or two minutes (depending on the video length), the notification sidebar will again update to display the items it detected in the uploaded video. 
+7. After about 30 seconds or less (depending on the video length), the notification sidebar will again update to display the items it detected in the uploaded video. 
 8. Very soon afterwards, a classification result is displayed, showing the type of emergency detected and some example responses/tasks that the application could go on to complete. 
 <br>
 
