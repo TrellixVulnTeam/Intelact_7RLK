@@ -96,7 +96,7 @@ function handleMessage(message,err) {
     var parts = filename.split('/');
 
     var user = parts[0];
-    eventKey = parts[1];
+    var eventKey = parts[1];
     var timestamp = parts[2];
 
 
@@ -147,7 +147,7 @@ function handleMessage(message,err) {
     }
 
     function isMedical(x) {
-      return x == "blood" || x == "injury" || x=="bone" || x=="hemorrhage" || x=="crash" || x=="accident" || x=="wreckage" || x=="wound" || x=="collision" || x=="flesh"
+      return x == "medical" || x == "blood" || x == "injury" || x=="bone" || x=="hemorrhage" || x=="crash" || x=="accident" || x=="wreckage" || x=="wound" || x=="collision" || x=="flesh"
     }
 
     function isPhysical(x) {
