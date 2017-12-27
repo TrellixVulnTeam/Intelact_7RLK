@@ -25,9 +25,6 @@ fbadmin.initializeApp({
 
 
 
-
-
-
 const options = {
     pushConfig: {
     	// change to https://${pubsub.projectId}.appspot.com/push
@@ -124,9 +121,9 @@ function handleMessage(message,err) {
 
 	} if(message.attributes.eventType == "ANALYSED_VIDEO") {
     var labels_json = message.attributes.labels;
-    var eventKey = message.attributes.eventKey;
+    var aneventKey = message.attributes.eventKey;
     var labels = JSON.parse(labels_json);  
-    var anmessagesRef = fbadmin.database().ref('event_data/' + eventKey + '/messages');
+    var anmessagesRef = fbadmin.database().ref('event_data/' + aneventKey + '/messages');
 
     // upload to database
     dbmessage("Video Analysed.",
@@ -141,19 +138,19 @@ function handleMessage(message,err) {
     var emergency = false;
 
     function isFire(x) {
-      return x == "fire" || x=="flame" || x=="smoke" || x=="explosion" 
+      return x=="fire" || x=="flame" || x=="smoke" || x=="explosion" 
     }
 
     function isMedical(x) {
-      return x == "medical" || x == "blood" || x == "injury" || x=="bone" || x=="hemorrhage" || x=="crash" || x=="accident" || x=="wreckage" || x=="wound" || x=="collision" || x=="flesh"
+      return (x=="medical" || x=="blood" || x=="injury" || x=="bone" || x=="hemorrhage" || x=="crash" || x=="accident" || x=="wreckage" || x=="wound" || x=="collision" || x=="flesh")
     }
 
     function isPhysical(x) {
-      return x == "knife" || x=="combat" || x=="riot" || x=="fight" || x=="gun" || x=="weapon" || x=="blade" || x=="machete" || x=="rifle" || x=="violence" || x=="baseball bat"
+      return x=="knife" || x=="combat" || x=="riot" || x=="fight" || x=="gun" || x=="weapon" || x=="blade" || x=="machete" || x=="rifle" || x=="violence" || x=="baseball bat"
     }
 
     function isNatural(x) {
-      return x == "tornado" || x=="supercell" || x=="earthquake" || x=="catastrophe" || x=="tsunami" || x=="avalanche" || x=="flood" 
+      return x =="tornado" || x=="supercell" || x=="earthquake" || x=="catastrophe" || x=="tsunami" || x=="avalanche" || x=="flood" 
     }
 
     if(labels.find(isFire)) {
@@ -186,10 +183,9 @@ function handleMessage(message,err) {
       dbmessage("No emergency detected.","",anmessagesRef);
     }
 
-
-    return 0;
-
   }
+
+  return 0;
 
 }
 
