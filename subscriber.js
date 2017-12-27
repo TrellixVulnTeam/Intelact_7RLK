@@ -104,18 +104,18 @@ function handleMessage(message,err) {
     updates['event_data/' + eventKey + '/videoUrl'] = url;
     fbadmin.database().ref().update(updates);
 
-    var messagesRef = fbadmin.database().ref('event_data/' + eventKey + '/messages');
+    var obmessagesRef = fbadmin.database().ref('event_data/' + eventKey + '/messages');
     var date = new Date();
     var datestr = String(date);
     var format_date = datestr.split('GMT');
 
     dbmessage("Video Uploaded to the Cloud",
-      "URL: " + url,messagesRef)
+      "URL: " + url,obmessagesRef)
     
 
     // start analysing
     dbmessage("Analysing video...",
-      "This may take a few seconds.",messagesRef);
+      "This may take a few seconds.",obmessagesRef);
 
     var bucketId = message.attributes.bucketId;
     var objectId = message.attributes.objectId;
@@ -126,12 +126,12 @@ function handleMessage(message,err) {
     var labels_json = message.attributes.labels;
     var eventKey = message.attributes.eventKey;
     var labels = JSON.parse(labels_json);  
-    var messagesRef = fbadmin.database().ref('event_data/' + eventKey + '/messages');
+    var anmessagesRef = fbadmin.database().ref('event_data/' + eventKey + '/messages');
 
     // upload to database
     dbmessage("Video Analysed.",
       "Labels detected: " + labels,
-      messagesRef);
+      anmessagesRef);
     
     console.log("Classifiying emergency...");
     console.log(labels_json);
@@ -160,30 +160,30 @@ function handleMessage(message,err) {
       emergency = true;
       dbmessage("Fire detected!",
         "EXAMPLE RESPONSES: \n Contacting fire brigade...\n Displaying map of current location...\n Displaying fire safety information...\n",
-        messagesRef);
+        anmessagesRef);
 
 
     } if(labels.find(isMedical)) {
       emergency = true;
       dbmessage("Medical emergency detected!",
         "EXAMPLE RESPONSES: \n Alerting family members...\n Contacting ambulance service...\n Displaying first aid information...\n",
-        messagesRef);
+        anmessagesRef);
 
 
     } if(labels.find(isPhysical)) {
       emergency = true;
       dbmessage("Physcial threat detected!",
         "EXAMPLE RESPONSES: \n Putting device on silent mode...\n Contacting police...\n Alerting family members...\n Displaying directions to nearest safe area...\n",
-        messagesRef);
+        anmessagesRef);
 
     } if(labels.find(isNatural)) {
       emergency = true;
       dbmessage("Natural disaster detected!",
-        "EXAMPLE RESPONSES: \n Displaying local news feed... \n Displaying avoidance areas... \n Displaying emergency advice... \n Contacting emergency services...", messagesRef)
+        "EXAMPLE RESPONSES: \n Displaying local news feed... \n Displaying avoidance areas... \n Displaying emergency advice... \n Contacting emergency services...", anmessagesRef)
     }
 
     if(!emergency) {
-      dbmessage("No emergency detected.","",messagesRef);
+      dbmessage("No emergency detected.","",anmessagesRef);
     }
 
 
@@ -267,8 +267,8 @@ function analyseVideo(url,key) {
     })
     .catch(err => {
       console.error('Analysis ERROR:', err);
-      var messagesRef = fbadmin.database().ref('event_data/' + key + '/messages');
-      dbmessage("Error analysing video. Try again by refreshing the page.","",messagesRef)
+      var vidmessagesRef = fbadmin.database().ref('event_data/' + key + '/messages');
+      dbmessage("Error analysing video. Try again by refreshing the page.","",vidmessagesRef)
     });
 }
 
