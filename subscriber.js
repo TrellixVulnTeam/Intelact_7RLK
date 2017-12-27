@@ -239,7 +239,6 @@ function analyseVideo(url,key) {
 
       console.log("Finished analysing");
 
-
       var i,j,temparray,label_chunk,chunk = 125;
       for (i=0,j=entities.length; i<j; i+=chunk) {
         label_chunk = entities.slice(i,i+chunk);
@@ -270,6 +269,8 @@ function analyseVideo(url,key) {
     })
     .catch(err => {
       console.error('Analysis ERROR:', err);
+      var messagesRef = fbadmin.database().ref('event_data/' + key + '/messages');
+      dbmessage("Error analysing video. Try again by refreshing the page.","",messagesRef)
     });
 }
 

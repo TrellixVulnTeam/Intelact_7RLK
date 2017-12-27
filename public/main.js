@@ -172,7 +172,6 @@ IntelactPortal.prototype.createEvent = function() {
       var date = new Date();
       var datestr = String(date);
       var format_date = datestr.split('GMT');
-      console.log(date);
       this.eventsRef.child(data.key).child("messages").push({
         message: "Event Created",
         detail: "",
