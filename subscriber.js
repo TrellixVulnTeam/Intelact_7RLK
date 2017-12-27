@@ -77,8 +77,6 @@ function dbmessage(message,detail,ref) {
 
 }
 
-var eventKey = "";
-var messagesRef = "";
 
 function handleMessage(message,err) {
 
@@ -106,7 +104,7 @@ function handleMessage(message,err) {
     updates['event_data/' + eventKey + '/videoUrl'] = url;
     fbadmin.database().ref().update(updates);
 
-    messagesRef = fbadmin.database().ref('event_data/' + eventKey + '/messages');
+    var messagesRef = fbadmin.database().ref('event_data/' + eventKey + '/messages');
     var date = new Date();
     var datestr = String(date);
     var format_date = datestr.split('GMT');
