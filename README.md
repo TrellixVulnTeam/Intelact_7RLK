@@ -5,6 +5,7 @@
 Intelact  is  a  web  application  that  uses  artificial intelligence  and  cloud  based  technology  to  rapidly  detect  and respond  to  emergency  situations.  Using  Google’s  cloud  infras-tructure,  the  application  is  able  to  store  uploaded  videos  in  the cloud, identify the type of emergency situation within videos (e.g. medical,  fire,  physical  threat)  and  subsequently  suggest  tailored responses.  Such  a  system  could  be  used  to  autonomously store video and audio evidence, contact the relevant emergency services and provide useful safety information, with very low requirements for  user  interaction.  
 
 Run the application [here](https://intelact-186119.appspot.com/).
+
 A more detailed description of the implementation [here](https://github.com/dkeitley/Intelact/blob/master/Intelact_Report.pdf). 
 
 ## Demo Instructions
